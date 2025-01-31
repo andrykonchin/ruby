@@ -291,6 +291,11 @@ describe "Marshal.dump" do
         Marshal.dump([0.0, 0.0]).should == "\x04\b[\af\x060@\x06" # @\x06 is a link to the float value
       end
     end
+
+    it "does not use object links for objects repeatedly dumped" do
+      s = "string"
+      Marshal.dump([0.0, 0.0, s, s]).should == "\x04\b[\tf\x060@\x06\"\vstring@\a"
+    end
   end
 
   describe "with a Bignum" do
